@@ -2,40 +2,38 @@ const express = require("express");
 const path = require("path");
 const nodemailer = require("nodemailer");
 
-/* create application */
+/* set up application  */
 const app = express();
-
-
-// body parser middleware
 app.use(express.json());
 app.use(express.urlencoded( { extended: false } )); // this is to handle URL encoded data
 app.use(express.static(path.join(__dirname, "public")));
 
 
-// HTTP POST
-app.get("/ajax/email", function(request, response) {
-  // create reusable transporter object using the default SMTP transport
+/* - send email endpoint - */
+app.post("/ajax/email", function(request, response) {
+    // 1. create transport
 	const transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
 		port: 465,
 		secure: true,
 		auth: {
-			user:  process.env.EMAIL, // this should be YOUR GMAIL account
+			user:  process.env.EMAIL,
 			pass:  process.env.PASSWORD
 		}
 	});
 
-	var textBody = `FROM: ${request.body.name} EMAIL: ${request.body.email} MESSAGE: ${request.body.message}`;
-	var htmlBody = `<h2>Mail From Contact Form</h2><p>from: ${request.body.name} <a href="mailto:${request.body.email}">${request.body.email}</a></p><p>${request.body.message}</p>`;
-	var mail = {
-		from: process.env.EMAIL, // sender address
-		to:  process.env.EMAIL, // list of receivers (THIS COULD BE A DIFFERENT ADDRESS or ADDRESSES SEPARATED BY COMMAS)
-		subject: "Mail From Contact Form", // Subject line
+    // 2. define message to send
+	let textBody = `FROM: ${request.body.name} EMAIL: ${request.body.email} MESSAGE: ${request.body.message}`;
+	let htmlBody = `<h2>Mail From Contact Form</h2><p>from: ${request.body.name} <a href="mailto:${request.body.email}">${request.body.email}</a></p><p>${request.body.message}</p>`;
+	let mail = {
+		from: process.env.EMAIL, 
+		to:  process.env.EMAIL, 
+		subject: "Mail From Contact Form", // TODO: changethis
 		text: textBody,
 		html: htmlBody
 	};
 
-	// send mail with defined transport object
+	// 3. send mail
 	transporter.sendMail(mail, function (err, info) {
 		if(err) {
 			console.log(err);
@@ -48,7 +46,6 @@ app.get("/ajax/email", function(request, response) {
 });
 
 
-// set port from environment variable, or 8000
+/* set up port */
 const PORT = process.env.PORT || 8000;
-
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
