@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 /* set up application  */
 const app = express();
@@ -10,7 +11,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 /* - send email endpoint - */
-app.post("/ajax/email", function(request, response) {
+app.post("/email", function(request, response) {
     // 1. create transport
 	const transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
