@@ -6,6 +6,12 @@ const nodemailer = require("nodemailer");
 const app = express();
 
 
+// body parser middleware
+app.use(express.json());
+app.use(express.urlencoded( { extended: false } )); // this is to handle URL encoded data
+app.use(express.static(path.join(__dirname, "public")));
+
+
 // HTTP POST
 app.get("/ajax/email", function(request, response) {
   // create reusable transporter object using the default SMTP transport
