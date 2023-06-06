@@ -1,17 +1,18 @@
 const express = require("express");
 const path = require("path");
 const nodemailer = require("nodemailer");
+var cors = require('cors')
 require('dotenv').config();
 
-/* set up application  */
+/* set up application with middleware */
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded( { extended: false } )); // this is to handle URL encoded data
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(cors())
 
 /* - send email endpoint - */
-app.post("/email", function(request, response) {
+app.post("/email",function(request, response) {
     // 1. create transport
 	const transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
