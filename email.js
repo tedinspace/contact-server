@@ -2,28 +2,8 @@ const express = require("express");
 const path = require("path");
 const nodemailer = require("nodemailer");
 
+/* create application */
 const app = express();
-
-
-// body parser middleware
-app.use(express.json());
-app.use(express.urlencoded( { extended: false } )); // this is to handle URL encoded data
-// end parser middleware
-
-
-// custom middleware to log data access
-const log = function (request, response, next) {
-	console.log(`${new Date()}: ${request.protocol}://${request.get('host')}${request.originalUrl}`);
-	console.log(request.body); // make sure JSON middleware is loaded first
-	next();
-}
-app.use(log);
-// end custom middleware
-
-
-// enable static files pointing to the folder "public"
-// this can be used to serve the index.html file
-app.use(express.static(path.join(__dirname, "public")));
 
 
 // HTTP POST
