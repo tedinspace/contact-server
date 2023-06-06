@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // this is to handle URL encoded data
 app.use(express.static(path.join(__dirname, "public")));
 
-let allowedOrigins = ["http://localhost:3000", "http://tedsite.com"];
+let allowedOrigins = ["http://localhost:3000", "https://tedsite.com","https://tedsite.com/contact/"];
 app.use(
   cors({
     origin: function (origin, callback) {
