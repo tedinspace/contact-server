@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 // HTTP POST
-app.post("/ajax/email", function(request, response) {
+app.get("/ajax/email", function(request, response) {
   // create reusable transporter object using the default SMTP transport
 	const transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
